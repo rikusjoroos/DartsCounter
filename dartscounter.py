@@ -12,13 +12,15 @@ playerFont = ("Arial", 30)
 
 menu_def = [['File',['New Game']]]
 
+# To highlight player 1 points and turn
 def HighLightPlayer1():
     global player1Turn
     player1Turn = True
     window['-TURN-'].update("Player 1 points")
     window['-POINTSLEFT1-'].update(background_color = 'white', text_color = 'black')
     window['-POINTSLEFT2-'].update(background_color = sg.theme_background_color(), text_color = sg.theme_text_color())
-
+    
+# To highlight player 2 points and turn
 def HighLightPlayer2():
     global player1Turn
     player1Turn = False
@@ -187,11 +189,11 @@ while True:
         if remainingpoints < 0:
             continue
         if player1Turn == True:
+            p1CurrentPoints = int(window['-POINTSLEFT1-'].get())
+            scoredPoints = p1CurrentPoints - remainingpoints
             if remainingpoints == 0:
                 playerName = window['-PLAYER1NAME-'].get()
                 answer = sg.popup_yes_no(playerName + " won?", title = "Winner?")
-                p1CurrentPoints = int(window['-POINTSLEFT1-'].get())
-                scoredPoints = p1CurrentPoints - remainingpoints
                 if answer == "Yes":
                     round = round + 1
                     p1legwins = int(window['-PLAYER1LEGWIN-'].get())
@@ -203,7 +205,7 @@ while True:
                     player1MatchPoints.append(scoredPoints)
                     legAvgP1 = (sum(player1Points))/(len(player1Points)*3) * 3
                     window['-P1AVG-'].update(str(legAvgP1))
-                    matchAvgP2 = (sum(player1MatchPoints))/(len(player1MatchPoints)*3) * 3
+                    matchAvgP1 = (sum(player1MatchPoints))/(len(player1MatchPoints)*3) * 3
                     window['-P1MATCHAVG-'].update(str(matchAvgP1))
                     player1Points = []
                     player2Points = []
@@ -223,6 +225,7 @@ while True:
                     matchAvgP2 = (sum(player1MatchPoints))/(len(player1MatchPoints)*3) * 3
                     window['-P1MATCHAVG-'].update(str(matchAvgP1))
                     continue
+            
             player1Points.append(scoredPoints)
             player1MatchPoints.append(scoredPoints)
             window['-POINTSLEFT1-'].update(str(remainingpoints))
@@ -233,11 +236,11 @@ while True:
             window['-POINTS-'].update("")
             HighLightPlayer2()
         else:
+            p2CurrentPoints = int(window['-POINTSLEFT2-'].get())
+            scoredPoints = p2CurrentPoints - remainingpoints
             if remainingpoints == 0:
                 playerName = window['-PLAYER2NAME-'].get()
                 answer = sg.popup_yes_no(playerName + " won?", title = "Winner?")
-                p2CurrentPoints = int(window['-POINTSLEFT2-'].get())
-                scoredPoints = p2CurrentPoints - remainingpoints
                 if answer == "Yes":
                     round = round + 1
                     p2legwins = int(window['-PLAYER2LEGWIN-'].get())
